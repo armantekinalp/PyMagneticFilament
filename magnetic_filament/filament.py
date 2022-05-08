@@ -26,22 +26,22 @@ class Filament:
     """
 
     def __init__(
-            self,
-            position,
-            velocity,
-            length,
-            line_density=1.0,
-            bending_stiffness=1.0,
-            axial_stiffness=1e3,
-            internal_damping_coeff=0.0,
-            real_dtype=np.float64,
+        self,
+        position,
+        velocity,
+        length,
+        line_density=1.0,
+        bending_stiffness=1.0,
+        axial_stiffness=1e3,
+        internal_damping_coeff=0.0,
+        real_dtype=np.float64,
     ):
 
         self.position = position.astype(real_dtype)
         self.velocity = velocity.astype(real_dtype)
         self.dim = position.shape[0]
         assert (
-                self.dim == 2 or self.dim == 3
+            self.dim == 2 or self.dim == 3
         ), "Invalid problem dimension (only 2D and 3D)"
         self.N_nodes = position.shape[-1]
         self.length = real_dtype(length)
@@ -49,7 +49,7 @@ class Filament:
         self.line_density = real_dtype(line_density)
 
         self.mass = (
-                self.line_density * self.ds * np.ones(self.N_nodes).astype(real_dtype)
+            self.line_density * self.ds * np.ones(self.N_nodes).astype(real_dtype)
         )
         self.bending_stiffness = real_dtype(bending_stiffness)
         self.axial_stiffness = real_dtype(axial_stiffness)
@@ -94,7 +94,7 @@ class Filament:
         Compute tension
         """
         tension[...] = axial_stiffness * (
-                np.sqrt(np.sum(slope**2, axis=0)) - real_dtype(1)
+            np.sqrt(np.sum(slope ** 2, axis=0)) - real_dtype(1)
         )
 
     @staticmethod
@@ -114,13 +114,13 @@ class Filament:
         Compute bending force from curvature and add to `force`
         """
         force[:, 1:-1] -= (
-                bending_stiffness
-                * (
-                        curvature[:, 2:]
-                        + curvature[:, :-2]
-                        - real_dtype(2) * curvature[:, 1:-1]
-                )
-                / ds
+            bending_stiffness
+            * (
+                curvature[:, 2:]
+                + curvature[:, :-2]
+                - real_dtype(2) * curvature[:, 1:-1]
+            )
+            / ds
         )
         force[:, 0] -= bending_stiffness / ds * (curvature[:, 1] - curvature[:, 0])
         force[:, -1] += bending_stiffness / ds * (curvature[:, -1] - curvature[:, -2])
