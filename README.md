@@ -1,6 +1,9 @@
 # PyMagneticFilament
-This is a code for simulating an uniformly magnetized filament under rotating magnetic field.
+This is a code for simulating an uniformly magnetized filament under rotating magnetic field. For the filament, dynamic [Euler-beam equation](https://www.sciencedirect.com/science/article/pii/S0021999107003051) is solved 
 
+<img width="316" alt="Screen Shot 2022-05-07 at 8 09 13 PM" src="https://user-images.githubusercontent.com/53585636/167277557-a8a67070-9733-46c9-b32e-e361bfda18fc.png">
+
+where  *s* is the arclength, **x** is the position, \rho is the mass line density, *T* is the tension force along the filament axis, *EI* is the bending rigidity, and **f** is the force line density.
 
 
 ## Validation & Convergence
